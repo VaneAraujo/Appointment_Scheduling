@@ -12,15 +12,15 @@ namespace Appointment.API.Data
         }
 
         public DbSet<Patient> Patients { get; set; }
-
+        public DbSet<Patient> Doctors { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
 
             modelBuilder.Entity<Patient>().HasIndex(x => x.Name).IsUnique();
+            modelBuilder.Entity<Doctors>().HasIndex(d => d.Name).IsUnique();
 
-           
 
         }
 
