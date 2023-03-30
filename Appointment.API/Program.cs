@@ -28,4 +28,12 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+//para habilitar el consumo de la API
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(origin => true)
+    .AllowCredentials());
+
+
 app.Run();
