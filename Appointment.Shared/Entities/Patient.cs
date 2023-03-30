@@ -20,6 +20,7 @@ namespace Appointment.Shared.Entities
         public int DocumentNumber { get; set; }
 
         public string EPS { get; set; } = null;
+
         public DateOnly BirthDate { get; set; }
     }
 }
