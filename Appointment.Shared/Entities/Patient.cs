@@ -21,6 +21,6 @@ namespace Appointment.Shared.Entities
 
         public string EPS { get; set; } = null;
 
-        public DateOnly BirthDate { get; set; }
+       // public DateOnly BirthDate { get; set; }
     }
 }
