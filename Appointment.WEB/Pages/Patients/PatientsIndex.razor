@@ -1,0 +1,60 @@
+﻿<h3>PatientsIndex</h3>
+
+@page "/patients"
+@using Appointment.WEB.Repositories;
+@using Appointment.WEB.Shared;
+@using Appointment.Shared.Entities;
+
+@inject IRepository repository
+
+<h3>Pacientes</h3>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/patients/create">Nuevo paciente</a>
+</div>
+
+<GenericList MyList="Patients">
+
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Paciente</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var patient in Patients!)
+                {
+                    <tr>
+                        <td>
+                            <a class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger">Borrar</button>
+                        </td>
+                        <td>
+                            @patient.Name
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </Body>
+
+</GenericList>
+
+@code {
+    public List<Patient>? Patients { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var responseHppt = await repository.Get<List<Patient>>("api/patients");
+        Patients = responseHppt.Response!;
+    }
+}
+
+
+
+@code {
+
+}

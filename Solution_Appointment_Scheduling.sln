@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33414.496
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Appointment.Shared", "Appointment.Shared\Appointment.Shared.csproj", "{7F5763CD-0A2C-4C62-8B2C-2BAF78D812D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Appointment.Shared", "Appointment.Shared\Appointment.Shared.csproj", "{7F5763CD-0A2C-4C62-8B2C-2BAF78D812D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Appointment.API", "Appointment.API\Appointment.API.csproj", "{261E3C15-314E-4FA6-8D48-A8417473F99F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Appointment.API", "Appointment.API\Appointment.API.csproj", "{261E3C15-314E-4FA6-8D48-A8417473F99F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Appointment.WEB", "Appointment.WEB\Appointment.WEB.csproj", "{E4D9BD2F-D82A-42E0-8A5C-DF8B5A98EFC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Appointment.WEB", "Appointment.WEB\Appointment.WEB.csproj", "{E4D9BD2F-D82A-42E0-8A5C-DF8B5A98EFC4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
