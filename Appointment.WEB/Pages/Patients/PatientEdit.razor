@@ -1,4 +1,4 @@
-﻿@page "/countries/edit/{Id:int}"
+﻿@page "/patients/edit/{Id:int}"
 @using Appointment.Shared.Entities;
 @using Appointment.WEB.Repositories;
 @using CurrieTechnologies.Razor.SweetAlert2;
@@ -58,7 +58,7 @@ else
         else
         {
             patientForm!.FormPostedSuccessfully = true;
-            navigationManager.NavigateTo("countries");
+            navigationManager.NavigateTo("patient");
         }
     }
 

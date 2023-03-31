@@ -1,12 +1,9 @@
 ﻿
 @page "/patients/create"
-@using Appointment.Shared.Entities;
-@using Appointment.WEB.Repositories;
-@using Appointment.WEB.Pages;
 @using CurrieTechnologies.Razor.SweetAlert2;
 @inject IRepository repository
 @inject NavigationManager navigationManager
-@inject SweetAlertService sweetAlertService
+@inject SweetAlertService swal
 
 <h3>Crear Paciente</h3>
 
@@ -23,10 +20,10 @@
         if (responseHttp.Error)
         {
             var message = await responseHttp.GetErrorMessageAsync();
-            await sweetAlertService.FireAsync("Error", message);
+            await swal.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
-
+        patientForm!.FormPostedSuccessfully = true;
         navigationManager.NavigateTo("/patients");
     }
 

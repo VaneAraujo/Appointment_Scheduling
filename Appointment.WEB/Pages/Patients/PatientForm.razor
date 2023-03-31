@@ -1,14 +1,10 @@
-﻿@using CurrieTechnologies.Razor.SweetAlert2;
-@using Appointment.Shared.Entities;
-@using Microsoft.AspNetCore.Components.Forms;
-@using Microsoft.AspNetCore.Components.Routing;
-@inject NavigationManager navigationManager
-@inject SweetAlertService swal
+﻿@inject SweetAlertService swal
+
 <h3>patientForm</h3>
 
 <NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation"></NavigationLock>
 
-<EditForm EditContext="editContext" OnValidSubmit="OnSubmit">
+<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
 
     <DataAnnotationsValidator />
     <div class="mb-3">
