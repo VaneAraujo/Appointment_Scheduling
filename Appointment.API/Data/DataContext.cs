@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Reflection.Emit;
 using Appointment.Shared.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -11,15 +12,18 @@ namespace Appointment.API.Data
         {
         }
 
-        public DbSet<Patient> Patients { get; set; }
-        public DbSet<Patient> Doctors { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+
+        public DbSet<Scheduling> Schedules { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
 
-            modelBuilder.Entity<Patient>().HasIndex(x => x.Name).IsUnique();
-            modelBuilder.Entity<Doctors>().HasIndex(d => d.Name).IsUnique();
+            modelBuilder.Entity<User>().HasIndex(x => x.user_id).IsUnique();
+            modelBuilder.Entity<Role>().HasIndex(d => d.role_id).IsUnique();
+            modelBuilder.Entity<Scheduling>().HasIndex(d => d.order_id).IsUnique();
 
 
         }

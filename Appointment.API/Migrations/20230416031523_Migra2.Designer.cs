@@ -4,6 +4,7 @@ using Appointment.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Appointment.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230416031523_Migra2")]
+    partial class Migra2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,6 +54,12 @@ namespace Appointment.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("order_id"));
 
+                    b.Property<int>("Id médico")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id paciente")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("appointment_date")
                         .HasColumnType("datetime2");
 
@@ -62,20 +71,14 @@ namespace Appointment.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("doctor_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("patient_id")
-                        .HasColumnType("int");
-
                     b.HasKey("order_id");
 
-                    b.HasIndex("doctor_id");
+                    b.HasIndex("Id médico");
+
+                    b.HasIndex("Id paciente");
 
                     b.HasIndex("order_id")
                         .IsUnique();
-
-                    b.HasIndex("patient_id");
 
                     b.ToTable("Schedules");
                 });
@@ -118,13 +121,13 @@ namespace Appointment.API.Migrations
                 {
                     b.HasOne("Appointment.Shared.Entities.User", "Doctor")
                         .WithMany()
-                        .HasForeignKey("doctor_id")
+                        .HasForeignKey("Id médico")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Appointment.Shared.Entities.User", "Patient")
                         .WithMany()
-                        .HasForeignKey("patient_id")
+                        .HasForeignKey("Id paciente")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -1,59 +1,69 @@
 ﻿using Appointment.API.Data;
+using Appointment.Shared.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Appointment.Shared.Entities;
 
 namespace Appointment.API.Controllers
 {
+    
     [ApiController]
-    [Route("/api/doctors")]
-    public class DoctorsController : ControllerBase
+    [Route("/api/users")]
+    public class UsersController : ControllerBase
     {
         private readonly DataContext _context;
 
-        public DoctorsController(DataContext context)
+
+        public UsersController(DataContext context)
         {
             _context = context;
         }
 
+
         //Método GET LIST
+
         [HttpGet]
         public async Task<ActionResult> Get()
         {
-            return Ok(await _context.Doctors.ToListAsync());
+
+            return Ok(await _context.Users.ToListAsync());
+
         }
 
-        //Método GET con parámetro
+        //´Método GET con parámetro
+
         [HttpGet("{id:int}")]
         public async Task<ActionResult> Get(int id)
         {
 
-            var doctors = await _context.Doctors.FirstOrDefaultAsync(x => x.Id == id);
-
-            if (doctors is null)
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.user_id == id);
+            if (user is null)
             {
                 return NotFound(); //404
             }
-            return Ok(doctors);
+
+            return Ok(user);
+
         }
+
+
 
 
         // Método POST -- CREAR
         [HttpPost]
-        public async Task<ActionResult> Post(Doctors doctors)
+        public async Task<ActionResult> Post(User user)
         {
-            _context.Add(doctors);
+            _context.Add(user);
             try
             {
 
                 await _context.SaveChangesAsync();
-                return Ok(doctors);
+                return Ok(user);
             }
             catch (DbUpdateException dbUpdateException)
             {
                 if (dbUpdateException.InnerException!.Message.Contains("duplicate"))
                 {
-                    return BadRequest("Ya existe un paciente con el mismo nombre.");
+                    return BadRequest("Ya existe un usuario con el mismo nombre.");
                 }
                 else
                 {
@@ -66,21 +76,28 @@ namespace Appointment.API.Controllers
             }
         }
 
+
+
+
+
         //Método PUT --- UPDATE
+
         [HttpPut]
-        public async Task<ActionResult> Put(Doctors doctors)
+        public async Task<ActionResult> Put(User user)
         {
-            _context.Update(doctors);
+            _context.Update(user);
             await _context.SaveChangesAsync();
-            return Ok(doctors);
+            return Ok(user);
         }
 
-        //Método DELETE-- Eliminar
+
+
+        // Método DELETE-- Eliminar
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var afectedRows = await _context.Doctors
-                .Where(x => x.Id == id)
+            var afectedRows = await _context.Users
+                .Where(x => x.user_id == id)
                 .ExecuteDeleteAsync();
 
             if (afectedRows == 0)
@@ -89,8 +106,8 @@ namespace Appointment.API.Controllers
             }
 
             return NoContent(); //204
-
-
         }
+
+
     }
 }
