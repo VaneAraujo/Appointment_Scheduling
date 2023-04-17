@@ -24,7 +24,7 @@ namespace Appointment.API.Controllers
         public async Task<ActionResult> Get()
         {
 
-            return Ok(await _context.Users.ToListAsync());
+            return Ok(await _context.Roles.ToListAsync());
 
         }
 

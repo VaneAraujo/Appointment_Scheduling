@@ -17,13 +17,10 @@ namespace Appointment.Shared.Entities
         
         public int order_id { get; set; }
 
+        public int patient_id { get; set; }
 
-        [ForeignKey("patient_id")]
-        public User Patient { get; set; }
+        public int doctor_id { get; set; }
 
-
-        [ForeignKey("doctor_id")]
-        public User Doctor { get; set; }
 
 
         [Display(Name = "Fecha")]

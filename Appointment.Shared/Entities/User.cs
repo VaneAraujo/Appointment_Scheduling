@@ -9,10 +9,12 @@ namespace Appointment.Shared.Entities
 {
     public class User
     {
+
         [Display(Name = "Documento Id")]
         [Key]
         public int user_id { get; set; }
-       
+        public List<Role> Roles { get; } = new();//Relación muchos a muchos
+
         [Display(Name = "Usuario")] 
         [MaxLength(50, ErrorMessage = "Cuidado el campo {0} no permite más de {1} caracteres ")]  //{1}
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
@@ -26,10 +28,13 @@ namespace Appointment.Shared.Entities
 
 
         [Display(Name = "Inicio de horario laboral")]
-        public string bussiness_start_date { get; set; }
+        public string? bussiness_start_date { get; set; }
+
 
         [Display(Name = "Fin de horario laboral")]
-        public string bussiness_end_date { get; set; }
+        public string? bussiness_end_date { get; set; }
+
+        public List<Scheduling> schedules { get; set; } 
 
     }
 }

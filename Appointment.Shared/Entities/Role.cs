@@ -13,6 +13,7 @@ namespace Appointment.Shared.Entities
         [Display(Name = "Rol Id")]
         [Key]
         public int role_id { get; set; }
+        public List<User> Users { get; } = new();//Relación muchos a muchos
 
         [Display(Name = "Tipo de usuario")]
         [MaxLength(50, ErrorMessage = "Cuidado el campo {0} no permite más de {1} caracteres ")]  //{1}

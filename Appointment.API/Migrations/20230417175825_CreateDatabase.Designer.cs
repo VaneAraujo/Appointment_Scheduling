@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Appointment.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230416031523_Migra2")]
-    partial class Migra2
+    [Migration("20230417175825_CreateDatabase")]
+    partial class CreateDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,12 +54,6 @@ namespace Appointment.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("order_id"));
 
-                    b.Property<int>("Id médico")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id paciente")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("appointment_date")
                         .HasColumnType("datetime2");
 
@@ -71,11 +65,15 @@ namespace Appointment.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("doctor_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("patient_id")
+                        .HasColumnType("int");
+
                     b.HasKey("order_id");
 
-                    b.HasIndex("Id médico");
-
-                    b.HasIndex("Id paciente");
+                    b.HasIndex("doctor_id");
 
                     b.HasIndex("order_id")
                         .IsUnique();
@@ -92,11 +90,9 @@ namespace Appointment.API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("user_id"));
 
                     b.Property<string>("bussiness_end_date")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("bussiness_start_date")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("email")
@@ -117,23 +113,48 @@ namespace Appointment.API.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.Property<int>("Rolesrole_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Usersuser_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Rolesrole_id", "Usersuser_id");
+
+                    b.HasIndex("Usersuser_id");
+
+                    b.ToTable("RoleUser");
+                });
+
             modelBuilder.Entity("Appointment.Shared.Entities.Scheduling", b =>
                 {
-                    b.HasOne("Appointment.Shared.Entities.User", "Doctor")
+                    b.HasOne("Appointment.Shared.Entities.User", null)
+                        .WithMany("schedules")
+                        .HasForeignKey("doctor_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.HasOne("Appointment.Shared.Entities.Role", null)
                         .WithMany()
-                        .HasForeignKey("Id médico")
+                        .HasForeignKey("Rolesrole_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Appointment.Shared.Entities.User", "Patient")
+                    b.HasOne("Appointment.Shared.Entities.User", null)
                         .WithMany()
-                        .HasForeignKey("Id paciente")
+                        .HasForeignKey("Usersuser_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.Navigation("Doctor");
-
-                    b.Navigation("Patient");
+            modelBuilder.Entity("Appointment.Shared.Entities.User", b =>
+                {
+                    b.Navigation("schedules");
                 });
 #pragma warning restore 612, 618
         }

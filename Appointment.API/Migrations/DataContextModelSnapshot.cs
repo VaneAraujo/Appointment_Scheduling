@@ -75,8 +75,6 @@ namespace Appointment.API.Migrations
                     b.HasIndex("order_id")
                         .IsUnique();
 
-                    b.HasIndex("patient_id");
-
                     b.ToTable("Schedules");
                 });
 
@@ -89,11 +87,9 @@ namespace Appointment.API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("user_id"));
 
                     b.Property<string>("bussiness_end_date")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("bussiness_start_date")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("email")
@@ -114,23 +110,48 @@ namespace Appointment.API.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.Property<int>("Rolesrole_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Usersuser_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Rolesrole_id", "Usersuser_id");
+
+                    b.HasIndex("Usersuser_id");
+
+                    b.ToTable("RoleUser");
+                });
+
             modelBuilder.Entity("Appointment.Shared.Entities.Scheduling", b =>
                 {
-                    b.HasOne("Appointment.Shared.Entities.User", "Doctor")
-                        .WithMany()
+                    b.HasOne("Appointment.Shared.Entities.User", null)
+                        .WithMany("schedules")
                         .HasForeignKey("doctor_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.HasOne("Appointment.Shared.Entities.User", "Patient")
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.HasOne("Appointment.Shared.Entities.Role", null)
                         .WithMany()
-                        .HasForeignKey("patient_id")
+                        .HasForeignKey("Rolesrole_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Doctor");
+                    b.HasOne("Appointment.Shared.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("Usersuser_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-                    b.Navigation("Patient");
+            modelBuilder.Entity("Appointment.Shared.Entities.User", b =>
+                {
+                    b.Navigation("schedules");
                 });
 #pragma warning restore 612, 618
         }

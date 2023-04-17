@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Appointment.API.Migrations
 {
     /// <inheritdoc />
-    public partial class Migra1 : Migration
+    public partial class CreateDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,12 +32,36 @@ namespace Appointment.API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     user_name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    bussiness_start_date = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    bussiness_end_date = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    bussiness_start_date = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    bussiness_end_date = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.user_id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RoleUser",
+                columns: table => new
+                {
+                    Rolesrole_id = table.Column<int>(type: "int", nullable: false),
+                    Usersuser_id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RoleUser", x => new { x.Rolesrole_id, x.Usersuser_id });
+                    table.ForeignKey(
+                        name: "FK_RoleUser_Roles_Rolesrole_id",
+                        column: x => x.Rolesrole_id,
+                        principalTable: "Roles",
+                        principalColumn: "role_id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RoleUser_Users_Usersuser_id",
+                        column: x => x.Usersuser_id,
+                        principalTable: "Users",
+                        principalColumn: "user_id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -46,9 +70,7 @@ namespace Appointment.API.Migrations
                 {
                     order_id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Idpaciente = table.Column<int>(name: "Id paciente", type: "int", nullable: false),
                     patient_id = table.Column<int>(type: "int", nullable: false),
-                    Idmédico = table.Column<int>(name: "Id médico", type: "int", nullable: false),
                     doctor_id = table.Column<int>(type: "int", nullable: false),
                     appointment_date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     appointment_start_time = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -58,17 +80,11 @@ namespace Appointment.API.Migrations
                 {
                     table.PrimaryKey("PK_Schedules", x => x.order_id);
                     table.ForeignKey(
-                        name: "FK_Schedules_Users_Id médico",
-                        column: x => x.Idmédico,
+                        name: "FK_Schedules_Users_doctor_id",
+                        column: x => x.doctor_id,
                         principalTable: "Users",
                         principalColumn: "user_id",
-                        onDelete: ReferentialAction.NoAction);
-                    table.ForeignKey(
-                        name: "FK_Schedules_Users_Id paciente",
-                        column: x => x.Idpaciente,
-                        principalTable: "Users",
-                        principalColumn: "user_id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -78,14 +94,14 @@ namespace Appointment.API.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Schedules_Id médico",
-                table: "Schedules",
-                column: "Id médico");
+                name: "IX_RoleUser_Usersuser_id",
+                table: "RoleUser",
+                column: "Usersuser_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Schedules_Id paciente",
+                name: "IX_Schedules_doctor_id",
                 table: "Schedules",
-                column: "Id paciente");
+                column: "doctor_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Schedules_order_id",
@@ -104,10 +120,13 @@ namespace Appointment.API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "RoleUser");
 
             migrationBuilder.DropTable(
                 name: "Schedules");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Users");
